@@ -26,9 +26,56 @@ let playlist = [
     {
         name:'Chill Music for Studying ',
         artist: 'Lofi Girl',
-        img: '../img/img2.jpg',
+        img: '../img/img3.jpg',
         src: '../audio/song3.mp3'
     }
 ];
+let songIndex = Math.floor((Math.random() * playlist.length)+ 1);
 
-console.log(playlist.length)
+const loadSong = (index)=>{
+    musicName.textContent=playlist[index-1].name;
+    artistName.textContent=playlist[index-1].artist;
+    img.src=`${playlist[index-1].src}`;
+    audio.src=`${playlist[index-1].src}`;
+};
+
+const playSong = ()=>{
+    audio.play();
+    btnPlay.classList.add('hidden');
+    btnPause.classList.remove('hidden');
+};
+
+const pauseSong = ()=>{
+    audio.pause();
+    btnPlay.classList.remove('hidden');
+    btnPause.classList.add('hidden');
+};
+
+const prevSong=()=>{
+    songIndex--;
+    if(songIndex<1){
+        songIndex = playlist.length
+    }
+    // console.log(songIndex);
+
+    loadSong(songIndex);
+    playSong();
+}
+
+const nextSong=()=>{
+    songIndex++;
+    if(songIndex>playlist.length){
+        songIndex = 1;
+    }
+    loadSong(songIndex);
+    playSong();
+}
+
+
+window.addEventListener('load', ()=>{
+    loadSong(songIndex);
+    btnPlay.addEventListener('click',playSong);
+    btnPause.addEventListener('click',pauseSong);
+    btnPrev.addEventListener('click',prevSong);
+    btnNext.addEventListener('click',nextSong);
+})
