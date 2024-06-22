@@ -14,6 +14,21 @@ let playlist = [
     {
         name: 'In the End',
         artist: 'Linkin Park',
-        img
+        img: '../img/img1.jpg',
+        src: '../audio/song1.mp3'
+    },
+    {
+        name: 'Down With the Sickness',
+        artist: 'Disturbed',
+        img: '../img/img2.jpg',
+        src: '../audio/song2.mp3'
+    },
+    {
+        name:'Chill Music for Studying ',
+        artist: 'Lofi Girl',
+        img: '../img/img2.jpg',
+        src: '../audio/song3.mp3'
     }
-]    
+];
+
+console.log(playlist.length)
