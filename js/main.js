@@ -8,8 +8,8 @@ const img = document.querySelector('.js-img'),
     progressArea = document.querySelector('.js-progress-area'),
     progressBar = document.querySelector('.js-progress-bar'),
     audio = document.querySelector('.js-audio'),
-    currentTimeE1 = document.querySelector('.js-current-time'),
-    songDurationE1 = document.querySelector('.js-song-duration');
+    currentTimeEl = document.querySelector('.js-current-time'),
+    songDurationEl = document.querySelector('.js-song-duration');
 let playlist = [
     {
         name: 'In the End',
@@ -78,4 +78,38 @@ window.addEventListener('load', ()=>{
     btnPause.addEventListener('click',pauseSong);
     btnPrev.addEventListener('click',prevSong);
     btnNext.addEventListener('click',nextSong);
+
+    audio.addEventListener('timeupdate',(e)=>{
+        const currentTime = e.target.currentTime;
+        // console.log('currentTime:',currentTime)
+
+        const duration = e.target.duration
+        // console.log('duration:',duration)
+
+        let progressWidth = (currentTime/duration)*100;
+        progressBar.style.width = `${progressWidth}%`
+
+        let currentMinutes = Math.floor(currentTime/60);
+        let currentSeconds = Math.floor(currentTime%60);
+
+        if(currentSeconds<10){
+            currentSeconds =`0${currentSeconds}`
+        }
+        currentTimeEl.textContent = `${currentMinutes}:${currentSeconds}`
+    });
+
+    audio.addEventListener('loadeddata',()=>{
+        let audioDuration = audio.duration;
+        let Minutes = Math.floor(audioDuration/60);
+        let Seconds = Math.floor(audioDuration%60);
+
+        songDurationEl.textContent = `${Minutes}:${Seconds.toString().padStart(2,'0')}`
+    });
+    progressArea.addEventListener('click',(e)=> {
+        let progressWidth = progressArea.clientWidth;
+        let clickedOffsetX = e.offsetX;
+        let songDuration = audio.duration;
+        audio.currentTime = (clickedOffsetX/progressWidth)* songDuration;
+    });
+    audio.addEventListener('ended',nextSong)
 })
